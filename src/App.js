@@ -7,9 +7,9 @@ class App extends Component {
     super(props)
 
     this.state = {
-      userText: "Something", //text from the user
-      finalText: "final", //translated text
-      workingText: "working", //temp storage for text
+      userText: "", //text from the user
+      finalText: "", //translated text
+      workingText: "", //temp storage for text
       vowels: ["a", "e", "i", "o", "u"] //but never "y"
 
     }
@@ -32,37 +32,30 @@ class App extends Component {
 
   handleTranslatedText = () => {
     this.pigLatify();
-
-    //Needed to update the text on the display
-     //this.setState({finalText: this.state.workingText})
-
-    console.log("userText " + this.state.userText);
-    console.log("workingText " + this.state.workingText);
-    console.log("finalText " + this.state.finalText);
-
   }
 
   //This will compare all functions to update the working text
   //No return, just set state
   pigLatify(){
     if(this.isFirstVowel(this.state.userText)){
-      console.log("Vowel was true");
-      console.log("userText in PigIf: " + this.state.userText);
-      console.log("workingText in PigIf: " + this.state.workingText);
-      console.log("finalText PigIf: " + this.state.finalText);
-
       //push "-way" to the end of the word
       this.setState({
-                      finalText: this.state.userText + "-way",
-                      workingText: this.state.userText + "-way"
+                      finalText: this.state.userText + "-way"
                     })
 
     }else if (this.isConsonant(0)){
-      let i = 1
+      let i = 0
       do{
         this.isConsonant(i)
         i++
       }while(this.isConsonant(i))
+
+      let userTextArr = this.state.userText.split('');
+      let consonants = userTextArr.splice(0, i);
+      this.setState({
+        finalText: `${userTextArr.join('')}-${consonants.join('')}ay`
+//        workingText: `${this.userTextArr}-${this.consonants}ay`
+      })
 
 
     }else{
@@ -88,9 +81,9 @@ class App extends Component {
   //Returns bool
   isConsonant(index){
     if(this.state.vowels.includes(this.state.userText[index])){
-      return true
-    }else{
       return false
+    }else{
+      return true
     }
 
   }
